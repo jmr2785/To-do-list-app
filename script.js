@@ -4,7 +4,7 @@ const addBtn = document.getElementById("addBtn");
 const taskList = document.getElementById("taskList");
 const filterDate = document.getElementById("filterDate");
 
-// Load tasks from localStorage
+// Load saved tasks
 window.onload = () => {
     let saved = JSON.parse(localStorage.getItem("tasks")) || [];
     saved.forEach(t => addTask(t.text, t.completed, t.date));
@@ -33,14 +33,12 @@ function addTask(text, completed, date) {
         <button class="delete">X</button>
     `;
 
-    // Toggle complete
     li.addEventListener("click", e => {
         if (e.target.classList.contains("delete")) return;
         li.classList.toggle("completed");
         saveTasks();
     });
 
-    // Delete
     li.querySelector(".delete").addEventListener("click", () => {
         li.remove();
         saveTasks();
@@ -58,11 +56,9 @@ function saveTasks() {
             completed: li.classList.contains("completed")
         });
     });
-
     localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-// Filter by date
 filterDate.addEventListener("change", () => {
     const selected = filterDate.value;
     const items = document.querySelectorAll("li");
